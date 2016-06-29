@@ -66,7 +66,7 @@ Blah blah
 
 \newcommand{\tinytodo}[2][]{\todo[size=\tiny]{#2}}
 %\newcommand{\tinytodo}[2][]{\todo[size=\tiny, #1]{\begin{spacing}{1.0}#2\end{spacing}}}
-\newcommand{\todoc}[2][]{\tinytodo[color=blue!20, #1]{Cs: #2}} % Csaba
+\newcommand{\todoc}[2][]{\tinytodo[color=blue!50, #1]{Cs: #2}} % Csaba
 \newcommand{\todod}[2][]{\tinytodo[color=red!20, #1]{D:\@#2}} % David
 \newcommand{\todop}[2][]{\tinytodo[color=red!20, #1]{P:\@#2}} % Peter
 
@@ -124,6 +124,7 @@ Blah blah
 \newcommand{\Prob}[1]{\Pr\left( #1 \right)}
 \newcommand{\E}[1]{\mathbb{E}\left[ #1 \right]}
 \newcommand{\EE}[1]{\mathbb{E}\left[ #1 \right]}
+\newcommand{\EEt}[1]{\mathbb{E}_t\left[ #1 \right]}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\muhat}{\hat{\mu}}
 \newcommand{\eps}{\varepsilon}
@@ -185,37 +186,47 @@ The first observation is that $T = \sum_i \sum_t \ell_t(i) \ge K\min_i \sum_t \e
 \label{eq:smalltotalloss}
 \min_{i\in [K]} \sum_{t=1}^T \ell_t(i) \le T/K\,.
 \end{align}
-Now, assume that the expected regret of the learner is bounded by $C \sqrt{T}$:
+Now, assume that on an event  $\mathcal{E}_0$ (that holds with high probability) the regret of the learner is bounded by $C \sqrt{T}$:
+\begin{align*}
+{ \sum_{t=1}^T \ell_t(I_t)  - \min_{i\in [K]} \sum_{t=1}^T \ell_t(i) } \le C \sqrt{T}.
+\end{align*}
+Let $\EEt{X} = \EE{ X | I_1,\ell_1,\dots,I_{t-1},\ell_{t-1}}$.
+Since $\sum_{t=1}^T \ell_t(I_t)$ and $\sum_{t=1}^T \EEt{\ell_t(I_t)}$ are within $C\sqrt{T}$ of each other with high probability
+(because their difference is a martingale with bounded increments),
+there is an event $\mathcal{E}$ that also holds with high probability where
 \begin{align}
 \label{eq:regretbound}
-\EE{ \sum_{t=1}^T \ell_t(I_t)  - \min_{i\in [K]} \sum_{t=1}^T \ell_t(i) } \le C \sqrt{T}.
+{ \sum_{t=1}^T \ell_t(I_t)  - \min_{i\in [K]} \sum_{t=1}^T \ell_t(i) } \le C \sqrt{T}
 \end{align}
+holds ($C$ is a universal constant that changes between the lines -- sorry).
+In what follows all arguments hold on this event.
+
 We have
 \begin{align*}
-\EE{ \sum_{t=1}^T \ell_t(I_t) } = \EE{ \sum_{t=1}^T \sum_i \ell_t(i) p_t(i) } = \EE{ \sum_{t=1}^T p_t^* }\,.
+ \sum_{t=1}^T \EEt{\ell_t(I_t) } =  \sum_{t=1}^T \sum_i \ell_t(i) p_t(i)  = \sum_{t=1}^T p_t^* \,.
 \end{align*}
 Combining this with~\eqref{eq:regretbound} and \eqref{eq:smalltotalloss}, we get
 \begin{align*}
-\sum_{t=1}^T \left\{\EE{p_t^*} - \frac{1}{K}\right\}  \le C \sqrt{T}\,.
+\sum_{t=1}^T \left\{{p_t^*} - \frac{1}{K}\right\}  \le C \sqrt{T}\,.
 \end{align*}
 This implies that for any $\epsilon>0$, for $t=1,\dots,T$, 
-the condition $\EE{p_t^*} - \frac{1}{K}>\eps$ holds at most $C \sqrt{T}/\eps$ times.
+the condition ${p_t^*} - \frac{1}{K}>\eps$ holds at most $C \sqrt{T}/\eps$ times.
 Choose $\eps = 2/(C \sqrt{T})$ to conclude that
-$\EE{p_t^*} > \frac{1}{K} + 2/(C \sqrt{T})$ happens at most $T/2$ times, or, equivalently,
+${p_t^*} > \frac{1}{K} + 2/(C \sqrt{T})$ happens at most $T/2$ times, or, equivalently,
 \begin{align}
-\EE{p_t^*} \le \frac{1}{K} + \frac{2}{C \sqrt{T}}
+{p_t^*} \le \frac{1}{K} + \frac{2}{C \sqrt{T}}
 \label{eq:ptsmall}
 \end{align}
 happens at least $T/2$ times.
 Fix an index $t$ when~\eqref{eq:ptsmall} holds.
 Now, since for any $i$,
-$1 = \sum_j \EE{p_t(j)} \le \EE{p_t(i)} + (K-1) \EE{p_t^*} \le \EE{p_t(i)} + (K-1) \{\frac{1}{K} + 2/(C \sqrt{T})\}$.
+$1 = \sum_j {p_t(j)} \le {p_t(i)} + (K-1) {p_t^*} \le {p_t(i)} + (K-1) \{\frac{1}{K} + 2/(C \sqrt{T})\}$.
 Reordering this, since the inequality holds for any $i$, we get
 \begin{align*}
-\min_i \EE{p_t(i)} \ge \frac{1}{K} - \frac{2(K-1)}{C \sqrt{T}}\,.
+\min_i {p_t(i)} \ge \frac{1}{K} - \frac{2(K-1)}{C \sqrt{T}}\,.
 \end{align*}
 At these time point, the probability of switching is bounded away from zero (assuming $T$ is large compared to $K^2$).
-Since this holds for at least $T/2$ indices, the expected number of switches is linear.
+Since this holds for at least $T/2$ indices, on the said event, the expected number of switches is linear.
 
 \renewcommand{\bibsection}{\subsubsection*{\refname}}
 
