@@ -1,0 +1,232 @@
+\documentclass{article} % For LaTeX2e
+\usepackage[utf8]{inputenc}
+\usepackage{nips15submit_e,times}
+\usepackage{times}
+%\usepackage{hyperref}
+\usepackage{url}
+%\documentstyle[nips14submit_09,times,art10]{article} % For LaTeX 2.09
+\nipsfinalcopy
+
+\title{Conservative Bandits}
+
+
+\author{
+Blah blah
+}
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+% \newcommand{\fix}{\marginpar{FIX}}
+% \newcommand{\new}{\marginpar{NEW}}
+
+%\nipsfinalcopy % Uncomment for camera-ready version
+
+%\usepackage{newtxtext}
+\usepackage{textcomp}
+\usepackage{amsmath,mathtools}
+\usepackage{amsthm,thmtools,thm-restate}
+\usepackage{amssymb} % loads amsfonts
+%\usepackage[cmintegrals,bigdelims]{newtxmath}
+\usepackage[scr=rsfso]{mathalfa}
+\usepackage{dsfont}
+\usepackage{bm}
+
+%\usepackage{microtype}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{setspace}
+\usepackage{tikz-cd}
+\usepackage{booktabs}
+\usepackage[boxed]{algorithm}
+\usepackage{algpseudocode}
+%\usepackage{fullpage}
+%\usepackage{dblfloatfix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BIBLIOGRAPHY/CROSS-REFERENCES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[numbers]{natbib}
+
+\usepackage{varioref}
+%\usepackage[hidelinks]{hyperref}
+\usepackage[colorlinks=true,citecolor=blue]{hyperref}
+\usepackage[capitalise]{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TO-DO NOTES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\marginparwidth}{10ex}%added by Yifan so that the todos can fit in the margin
+\usepackage[obeyFinal]{todonotes}
+
+\newcommand{\tinytodo}[2][]{\todo[size=\tiny]{#2}}
+%\newcommand{\tinytodo}[2][]{\todo[size=\tiny, #1]{\begin{spacing}{1.0}#2\end{spacing}}}
+\newcommand{\todoc}[2][]{\tinytodo[color=blue!20, #1]{Cs: #2}} % Csaba
+\newcommand{\todod}[2][]{\tinytodo[color=red!20, #1]{D:\@#2}} % David
+\newcommand{\todop}[2][]{\tinytodo[color=red!20, #1]{P:\@#2}} % Peter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ROSHAN's MACROS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\wildcard}{\mathinner{\,{\cdot}\,}}
+\newcommand{\defeq}{\coloneq}
+\newcommand{\eqdef}{\eqcolon}
+\newcommand{\Real}{\mathds{R}}
+\newcommand{\Nat}{\mathds{N}}
+\newcommand{\Int}{\mathds{Z}}
+\newcommand{\Ex}{\mathds{E}}
+\renewcommand{\Pr}{\mathds{P}}
+\newcommand{\UCB}{\mathrm{UCB}}
+\newcommand{\LCB}{\mathrm{LCB}}
+\renewcommand\mid{\mathinner{\vert}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand\given[1][]{\nonscript\:#1\vert\nonscript\:\mathopen{}\allowbreak}
+
+\DeclarePairedDelimiterX\set[1]\{\}{%
+  \renewcommand\given{\nonscript\:\delimsize\vert\nonscript\:\mathopen{}\allowbreak}
+  #1
+}
+
+\newcommand{\one}[1]{\mathds{1}\set{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TOR's MACROS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\bset}[1]{\left\{#1\right\}}
+\newcommand{\eqn}[1]{\begin{align}#1\end{align}}
+\newcommand{\eq}[1]{\begin{align*}#1\end{align*}}
+\newcommand{\ind}[1]{\mathds{1}\!\!\bset{#1}}
+\newcommand{\ceil}[1]{\left \lceil {#1} \right\rceil}
+\renewcommand{\P}[1]{\mathbb{P}\left\{#1\right\}}
+\newcommand{\floor}[1]{\left \lfloor {#1} \right\rfloor}
+\newcommand{\ubar}[1]{\underline{#1\mkern-3mu}\mkern3mu }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% YIFAN's MACROS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\iset}[1]{\left[#1 \right]}
+\newcommand{\cset}[2]{\left\{#1\,:\,#2\right\}}
+
+\newcommand{\rar}{\rightarrow}
+\newcommand{\Rar}{\Rightarrow}
+\newcommand{\inprod}[2]{\left\langle #1 , #2 \right\rangle}
+\newcommand{\norm}[1]{\left\Vert #1 \right\Vert}
+\newcommand{\Prb}[1]{\Pr\left( #1 \right)}
+\newcommand{\Prob}[1]{\Pr\left( #1 \right)}
+\newcommand{\E}[1]{\mathbb{E}\left[ #1 \right]}
+\newcommand{\EE}[1]{\mathbb{E}\left[ #1 \right]}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\muhat}{\hat{\mu}}
+\newcommand{\eps}{\varepsilon}
+
+\allowdisplaybreaks
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THEOREMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+
+
+\begin{document}
+
+
+\maketitle
+
+\begin{abstract}
+Blah 
+\end{abstract}
+
+
+\section{Adaptive Adversaries force Good Learners to Switch Often}
+We construct an adaptive adversary that forces any low regret learner to switch linearly often.
+
+Let $K$ be the number of experts and fix a learner.
+Let $T>0$ be the number of rounds, $I_1,\dots, I_T$ be the choices of some fixed algorithm.
+We will construct the losses $\ell_1,\dots,\ell_T: [K] \to [0,1]$ recursively.
+First, let $\ell_1(i) = 0$ for all $i\in [K]$.
+Assume that the losses are constructed up to time $t-1\ge 1$. Then, $\ell_t$ is constructed as follows.
+Let
+\begin{align*}
+p_t(i) = \Prob{I_t = i|I_1,\ell_1, \dots, I_{t-1},\ell_{t-1} }\,
+\end{align*}
+and $p_t^* = \max_i p_t(i)$.
+Define
+\begin{align*}
+\ell_t(i) = 
+\begin{cases}
+1, & \text{if } p_t(i) = p_t^*\,;\\
+0, & \text{otherwise}\,,
+\end{cases}
+\end{align*}
+where ties are broken randomly (i.e., the loss of one is assigned to a single action and the loss is assigned to some of the candidates at random, if there were multiple experts $i$ with $p_t(i) = p_t^*$).
+
+The first observation is that $T = \sum_i \sum_t \ell_t(i) \ge K\min_i \sum_t \ell_t(i)$, hence 
+\begin{align}
+\label{eq:smalltotalloss}
+\min_{i\in [K]} \sum_{t=1}^T \ell_t(i) \le T/K\,.
+\end{align}
+Now, assume that the expected regret of the learner is bounded by $C \sqrt{T}$:
+\begin{align}
+\label{eq:regretbound}
+\EE{ \sum_{t=1}^T \ell_t(I_t)  - \min_{i\in [K]} \sum_{t=1}^T \ell_t(i) } \le C \sqrt{T}.
+\end{align}
+We have
+\begin{align*}
+\EE{ \sum_{t=1}^T \ell_t(I_t) } = \EE{ \sum_{t=1}^T \sum_i \ell_t(i) p_t(i) } = \EE{ \sum_{t=1}^T p_t^* }\,.
+\end{align*}
+Combining this with~\eqref{eq:regretbound} and \eqref{eq:smalltotalloss}, we get
+\begin{align*}
+\sum_{t=1}^T \left\{\EE{p_t^*} - \frac{1}{K}\right\}  \le C \sqrt{T}\,.
+\end{align*}
+This implies that for any $\epsilon>0$, for $t=1,\dots,T$, 
+the condition $\EE{p_t^*} - \frac{1}{K}>\eps$ holds at most $C \sqrt{T}/\eps$ times.
+Choose $\eps = 2/(C \sqrt{T})$ to conclude that
+$\EE{p_t^*} > \frac{1}{K} + 2/(C \sqrt{T})$ happens at most $T/2$ times, or, equivalently,
+\begin{align}
+\EE{p_t^*} \le \frac{1}{K} + \frac{2}{C \sqrt{T}}
+\label{eq:ptsmall}
+\end{align}
+happens at least $T/2$ times.
+Fix an index $t$ when~\eqref{eq:ptsmall} holds.
+Now, since for any $i$,
+$1 = \sum_j \EE{p_t(j)} \le \EE{p_t(i)} + (K-1) \EE{p_t^*} \le \EE{p_t(i)} + (K-1) \{\frac{1}{K} + 2/(C \sqrt{T})\}$.
+Reordering this, since the inequality holds for any $i$, we get
+\begin{align*}
+\min_i \EE{p_t(i)} \ge \frac{1}{K} - \frac{2(K-1)}{C \sqrt{T}}\,.
+\end{align*}
+At these time point, the probability of switching is bounded away from zero (assuming $T$ is large compared to $K^2$).
+Since this holds for at least $T/2$ indices, the expected number of switches is linear.
+
+\renewcommand{\bibsection}{\subsubsection*{\refname}}
+
+\bibliographystyle{unsrtnat}
+%\bibliography{../references} % chktex 11
+
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
